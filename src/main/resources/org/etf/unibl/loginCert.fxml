@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="org.etf.unibl.controller.LoginCertificateController">
+    <Label layoutX="260.0" layoutY="55.0" text="Provide Certificate"/>
+    <Button fx:id="nextButton" disable="true" layoutX="550.0" layoutY="442.0" mnemonicParsing="false"
+            onAction="#switchToLoginCredentials" text="Next &gt;&gt;"/>
+    <Button layoutX="269.0" layoutY="182.0" mnemonicParsing="false" onAction="#uploadCert" text="Choose file..."/>
+    <Label fx:id="chosenFileLabel" alignment="CENTER" layoutX="287.0" layoutY="442.0" text="&lt;No File&gt;"/>
+    <Button layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#switchToWelcome" text="&lt;&lt; Back"/>
+</AnchorPane>

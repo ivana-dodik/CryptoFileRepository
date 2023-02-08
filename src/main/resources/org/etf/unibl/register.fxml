@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="org.etf.unibl.controller.RegisterController">
+    <Label layoutX="268.0" layoutY="56.0" text="Register Screen"/>
+    <Button layoutX="333.0" layoutY="268.0" mnemonicParsing="false" onAction="#register" text="Register"/>
+    <Label layoutX="112.0" layoutY="174.0" text="Username:"/>
+    <TextField fx:id="usernameField" layoutX="235.0" layoutY="170.0"/>
+    <Label layoutX="112.0" layoutY="221.0" text="Password:"/>
+    <PasswordField fx:id="passwordField" layoutX="235.0" layoutY="217.0"/>
+    <Button layoutX="550.0" layoutY="442.0" mnemonicParsing="false" onAction="#switchToWelcome" text="&lt;&lt; Back"/>
+</AnchorPane>
