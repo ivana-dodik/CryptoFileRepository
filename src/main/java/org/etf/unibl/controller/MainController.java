@@ -143,7 +143,7 @@ public class MainController implements Initializable {
       return encryptedData;
    }
 
-   public static byte[] decryptData(final byte[] encryptedData, final PrivateKey decryptionKey) throws CMSException {
+  /* public static byte[] decryptData(final byte[] encryptedData, final PrivateKey decryptionKey) throws CMSException {
       byte[] decryptedData = null;
       if (null != encryptedData && null != decryptionKey) {
          CMSEnvelopedData envelopedData = new CMSEnvelopedData(encryptedData);
@@ -153,7 +153,24 @@ public class MainController implements Initializable {
          decryptedData = recipientInfo.getContent(recipient);
       }
       return decryptedData;
-   }
+   }*/
+  public static byte[] decryptData(final byte[] encryptedData, final PrivateKey decryptionKey) throws CMSException {
+     try {
+        byte[] decryptedData = null;
+        if (null != encryptedData && null != decryptionKey) {
+           CMSEnvelopedData envelopedData = new CMSEnvelopedData(encryptedData);
+           Collection<RecipientInformation> recip = envelopedData.getRecipientInfos().getRecipients();
+           KeyTransRecipientInformation recipientInfo = (KeyTransRecipientInformation) recip.iterator().next();
+           JceKeyTransRecipient recipient = new JceKeyTransEnvelopedRecipient(decryptionKey);
+           decryptedData = recipientInfo.getContent(recipient);
+        }
+        return decryptedData;
+     } catch (Exception e) {
+        LOGGER.error("File was tempered with, decryption failed.");
+        return null;
+     }
+  }
+
 
    public static byte[] signData(byte[] data, final X509Certificate signingCertificate, final PrivateKey signingKey) throws CertificateEncodingException, CMSException, IOException, OperatorCreationException {
       byte[] signedMessage;
@@ -239,6 +256,9 @@ public class MainController implements Initializable {
             LOGGER.warn("WARNING: File was tempered with!");
          }
          byte[] rawBytes = decryptData(encryptedBytes, App.getCurrentUsersPrivateKey());
+         if (rawBytes == null) {
+            return;
+         }
          byteBuffer.put(rawBytes);
       }
 
@@ -251,4 +271,5 @@ public class MainController implements Initializable {
 
       Files.write(file.toPath(), allBytes);
    }
+
 }

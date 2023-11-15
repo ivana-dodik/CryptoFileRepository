@@ -114,6 +114,11 @@ public class LoginCredentialsController {
 
    public void login(ActionEvent actionEvent) {
       var credentials = new Credentials(usernameField.getText(), passwordField.getText());
+      if (!App.getCurrentUsersCert().getSubjectX500Principal().getName().contains(credentials.getUsername())) {
+         LOGGER.warn("The given certificate doesn't belong to this user!!!");
+         return;
+      }
+
       try {
          Optional<User> user = usersRepository.login(credentials);
          if (user.isPresent()) {
@@ -140,6 +145,34 @@ public class LoginCredentialsController {
          LOGGER.error(e.getMessage());
       }
    }
+   /*public void login(ActionEvent actionEvent) {
+      var credentials = new Credentials(usernameField.getText(), passwordField.getText());
+      try {
+         Optional<User> user = usersRepository.login(credentials);
+         if (user.isPresent()) {
+            var currentUser = user.get();
+
+            if (!currentUser.isActive()) {
+               reactivateAccount(currentUser);
+            }
+
+            switchToMain(currentUser);
+         } else {
+            loginAttempts++;
+            LOGGER.warn("Login attempts: " + loginAttempts);
+            if (loginAttempts == 3) {
+               deactivateAccount(actionEvent);
+            } else {
+               showAlert("Bad credentials", Alert.AlertType.WARNING, actionEvent);
+            }
+         }
+      } catch (InvalidCertificateException e) {
+         LOGGER.error(e.getMessage());
+         showAlert(e.getMessage(), Alert.AlertType.ERROR, actionEvent);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage());
+      }
+   }*/
 
    private void showAlert(String contentText, Alert.AlertType alertType, ActionEvent actionEvent) {
       var alert = new Alert(alertType);
